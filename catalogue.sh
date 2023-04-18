@@ -8,6 +8,7 @@ echo -e "\e[32m>>>>>>>>Add application user<<<<<<<<<\e[0m"
 useradd roboshop
 
 echo -e "\e[32m>>>>>>>>Add application directory<<<<<<<<<\e[0m"
+rm -rf /app
 mkdir /app
 
 echo -e "\e[32m>>>>>>>>downloding npdejs repos<<<<<<<<<\e[0m"
