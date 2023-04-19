@@ -7,7 +7,7 @@ yum install nodejs -y
 echo -e "\e[32m>>>>>>>>Add application user<<<<<<<<<\e[0m"
 useradd roboshop
 
-echo -e "\e[32m>>>>>>>>Add application directory<<<<<<<<<\e[0m"
+echo -e "\e[32m>>>>>>>>Add application directorys<<<<<<<<<\e[0m"
 rm -rf /app
 mkdir /app
 
