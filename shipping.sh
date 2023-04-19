@@ -28,7 +28,7 @@ echo -e "\e[32m>>>>>>>>install mysqls<<<<<<<<<\e[0m"
 yum install mysql -y
 
 echo -e "\e[32m>>>>>>>>load shema<<<<<<<<<\e[0m"
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/shipping.sql
+mysql -h mysql-dev.sonydevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql
 
 echo -e "\e[32m>>>>>>>>start service<<<<<<<<<\e[0m"
 systemctl daemon-reload
