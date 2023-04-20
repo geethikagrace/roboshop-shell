@@ -1,4 +1,6 @@
-source common.sh
+script_=$(realpath "$0")
+script_path=$(dirname '$script')
+source ${script_path}/common.sh
 
 echo -e "\e[32m>>>>>>>>install paython<<<<<<<<<\e[0m"
 yum install python36 gcc python3-devel -y
@@ -22,7 +24,8 @@ echo -e "\e[32m>>>>>>>install requirements<<<<<<<<\e[0m"
 pip3.6 install -r requirements.txt
 
 echo -e "\e[32m>>>>>>>>configuring nodeJS repos<<<<<<<<<\e[0m"
-cp /home/centos/roboshop-shell/payment.service  /etc/systemd/system/payment.service
+cp ${script_path}/payment.service  /etc/systemd/system/payment.service
+
 echo -e "\e[32m>>>>>>>>restart payment<<<<<<<<<\e[0m"
 systemctl daemon-reload
 systemctl enable payment

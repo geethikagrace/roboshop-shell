@@ -1,8 +1,12 @@
+script_=$(realpath "$0")
+script_path=$(dirname '$script')
+source ${script_path}/common.sh
+
 echo -e "\e[35m>>>>>>>>deleting default content<<<<<<<<<\e[0m"
 dnf module disable mysql -y
 
 echo -e "\e[35m>>>>>>>>copy mysql repo <<<<<<<<<\e[0m"
-cp /home/centos/roboshop-shell/mysql.repo  /etc/yum.repos.d/mysql.repo
+cp ${script_path}/mysql.repo  /etc/yum.repos.d/mysql.repo
 
 echo -e "\e[35m>>>>>>>>install my sql <<<<<<<<<\e[0m"
 yum install mysql-community-server -y
