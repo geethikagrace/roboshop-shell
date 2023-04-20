@@ -1,6 +1,7 @@
 script_=$(realpath "$0")
 script_path=$(dirname '$script')
 source ${script_path}/common.sh
+rabbitmq_appuser_password=$1
 
 echo -e "\e[32m>>>>>>>>install paython<<<<<<<<<\e[0m"
 yum install python36 gcc python3-devel -y
