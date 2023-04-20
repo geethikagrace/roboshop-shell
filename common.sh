@@ -2,9 +2,19 @@ app_user=roboshop
 
 
 print_head() {
-  echo -e "\e[36m>>>>>>>>$*<<<<<<<<<\e[0m"
+  echo -e "\e[36m>>>>>>>> $1 <<<<<<<<<\e[0m"
 }
 
+schema_setup() {
+  echo -e "\e[32m>>>>>>>>copy mongodb<<<<<<<<<\e[0m"
+  cp ${script_path}/mongodb.repo /etc/yum.repos.d/mongo.repo
+
+  echo -e "\e[32m>>>>>>>>install mongodb clint<<<<<<<<<\e[0m"
+  yum install mongodb-org-shell -y
+
+  echo -e "\e[32m>>>>>>>>load schema<<<<<<<<<\e[0m"
+  mongo --host mongodb-dev.sonydevops.online </app/schema/${component}.js
+}
 
 func_nodejs() {
   print_head "configuring nodeJS repos"
@@ -37,4 +47,6 @@ print_head "copy catalogue systemD file"
   systemctl daemon-reload
   systemctl enable ${component}
   systemctl restart ${component}
+
+  schema_setup
   }
