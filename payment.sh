@@ -25,7 +25,7 @@ echo -e "\e[32m>>>>>>>install requirements<<<<<<<<\e[0m"
 pip3.6 install -r requirements.txt
 
 echo -e "\e[32m>>>>>>>>configuring nodeJS repos<<<<<<<<<\e[0m"
-sed -i -e"s|rabbitmq_appuser_password|${rabbitmq_appuser_password}"  ${script_path}/payment.service
+sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}|"  ${script_path}/payment.service
 cp ${script_path}/payment.service  /etc/systemd/system/payment.service
 
 echo -e "\e[32m>>>>>>>>restart payment<<<<<<<<<\e[0m"
