@@ -86,17 +86,8 @@ func_nodejs() {
 
     func_app_prereq
 
-    func_print_head "download  mavan dependences"
-    mvn clean package
-    mv target/shipping-1.0.jar shipping.jar
-
-
     func_print_head"install mysql client"
     yum install mysql -y
-
-
-    func_print_head "load schema"
-    mysql -h mysql-dev.sonydevops.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql
 
     func_print_head "download  mavan dependences"
     mvn clean package
