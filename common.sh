@@ -12,12 +12,12 @@ print_head() {
      func_print_head "install mongo clint"
      yum install mongodb-org-shell -y
 
-     func_print-head "install mongodb client"
+     func_print_head "install mongodb client"
     mongo --host mongodb-dev.sonydevops.online </app/schema/${component}.js
   fi
 
 
-  if [ "$schema_setup" == "mysql"]; then
+  if [ "$schema_setup" == "mysql"  ]; then
       func_print_head "download  mavan dependences"
       mvn clean package
       mv target/shipping-1.0.jar shipping.jar
@@ -81,15 +81,15 @@ func_nodejs() {
   
   func_java() {
 
-    func_print_head "install mavan"
+    print_head "install mavan"
     yum install maven -y
 
     func_app_prereq
 
-    func_print_head"install mysql client"
+    print_head"install mysql client"
     yum install mysql -y
 
-    func_print_head "download  mavan dependences"
+    print_head "download  mavan dependences"
     mvn clean package
     mv target/${component}-1.0.jar ${component}.jar
 
