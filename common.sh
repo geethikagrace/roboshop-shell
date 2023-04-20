@@ -1,7 +1,7 @@
 app_user=roboshop
 
 
-print_head() {
+func_print_head() {
   echo -e "\e[36m>>>>>>>> $1 <<<<<<<<<\e[0m"
 }
   func_schema_setup() {
@@ -81,15 +81,15 @@ func_nodejs() {
   
   func_java() {
 
-    print_head "install mavan"
+    func_print_head "install mavan"
     yum install maven -y
 
     func_app_prereq
 
-    print_head"install mysql client"
+    func_print_head"install mysql client"
     yum install mysql -y
 
-    print_head "download  mavan dependences"
+    func_print_head "download  mavan dependences"
     mvn clean package
     mv target/${component}-1.0.jar ${component}.jar
 
