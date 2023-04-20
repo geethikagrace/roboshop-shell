@@ -4,8 +4,10 @@ app_user=roboshop
 print_head() {
   echo -e "\e[36m>>>>>>>> $1 <<<<<<<<<\e[0m"
 }
+schema_setup()  {
+if [  "$schema_setup" == "mongo"  ];
+then
 
-schema_setup() {
   echo -e "\e[32m>>>>>>>>copy mongodb<<<<<<<<<\e[0m"
   cp ${script_path}/mongodb.repo /etc/yum.repos.d/mongo.repo
 
@@ -14,6 +16,7 @@ schema_setup() {
 
   echo -e "\e[32m>>>>>>>>load schema<<<<<<<<<\e[0m"
   mongo --host mongodb-dev.sonydevops.online </app/schema/${component}.js
+  fi
 }
 
 func_nodejs() {
