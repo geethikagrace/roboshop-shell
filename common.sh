@@ -87,7 +87,7 @@ func_nodejs() {
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash
   func_status_check
 
- func_print_head "install nodejs"
+  func_print_head "install nodejs"
   yum install nodejs -y
   func_status_check
 
