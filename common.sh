@@ -44,7 +44,7 @@ func_status_check()  {
 
 
       func_print_head "load schema"
-      mysql -h mysql-dev.sonydevops.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql
+      mysql -h mysql-dev.sonydevops.online -uroot -p${mysql_root_password} < /app/schema/${component}.sql
       func_status_check
   fi
 }
