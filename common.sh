@@ -50,7 +50,7 @@ func_status_check()  {
 func_app_prereq() {
 
     func_print_head "add application user"
-    id {app_user} &>>$redirect_log
+    id ${app_user} &>>$redirect_log
     if [ $? -ne  0 ]; then
     useradd ${app_user} &>>$redirect_log
     fi
