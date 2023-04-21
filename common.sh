@@ -130,3 +130,23 @@ func_nodejs() {
     func_systemd_setup
 
   }
+
+  func_python_pay() {
+
+    func_print_head "install paython"
+    yum install python36 gcc python3-devel -y &>>$redirect_log
+    func_status_check $?
+
+    func_app_prereq
+
+    func_print_head "install python dependences"
+    pip3.6 install -r requirements.txt &>>$redirect_log
+    func_status_check $?
+
+    func_print_head "update passwords in systemd service file"
+    sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}|"  ${script_path}/${component}.service &>>$redirect_log
+    func_status_check $?
+
+    func_systemd_setup
+
+}
