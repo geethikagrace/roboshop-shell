@@ -10,6 +10,7 @@ func_status_check()  {
         echo -e "\e[32mSUCCESS\e[0m"
       else
           echo -e "\e[31mFAILURE\e[0m"
+          echo "refer the log file /tmp/roboshop.log for more information"
           exit 1
       fi
 
@@ -51,12 +52,8 @@ func_status_check()  {
 func_app_prereq() {
 
     func_print_head "add application user"
-    useradd ${app_user}
-    if [ "${app_user}" -ne "roboshop"]; then
-      useradd ${app_user}
-      else
-      exit
-    fi
+    useradd ${app_user} >/tmp/roboshop.log
+
     func_status_check $?
 
     func_print_head "creat application directory"
