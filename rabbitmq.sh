@@ -4,7 +4,7 @@ source ${script_path}/common.sh
 rabbitmq_appuser_password=$1
 
 
-if [  -z "$rabbitmq_appuser_password"];
+if [  -z "$rabbitmq_appuser_password" ];
 then
   echo input rabbitmq appuser password missing
   exit
@@ -20,7 +20,7 @@ func_print_head "setup rabbitmq  repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$redirect_log
 func_status_check $?
 
-func_print_head"install erlang"
+func_print_head "install erlang"
 yum install erlang -y &>>$redirect_log
 func_status_check $?
 
