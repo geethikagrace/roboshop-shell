@@ -53,6 +53,7 @@ func_app_prereq() {
     id {app_user} &>>$redirect_log
     if [ $? -ne  0 ]; then
     useradd ${app_user} &>>$redirect_log
+    fi
     func_status_check $?
 
     func_print_head "creat application directory"
