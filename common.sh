@@ -109,16 +109,11 @@ func_nodejs() {
   }
   
   func_java() {
-
-    func_print_head "install mavan"
+    func_print_head "instll maven"
     yum install maven -y &>>$redirect_log
     func_status_check $?
 
     func_app_prereq
-
-    func_print_head"install mysql client"
-    yum install mysql -y &>>$redirect_log
-    func_status_check $?
 
     func_print_head "download  mavan dependences"
     mvn clean package &>>$redirect_log
