@@ -52,6 +52,11 @@ func_app_prereq() {
 
     func_print_head "add application user"
     useradd ${app_user}
+    if [ "${app_user}" -ne "roboshop"]; then
+      useradd ${app_user}
+      else
+      exit
+    fi
     func_status_check $?
 
     func_print_head "creat application directory"
@@ -109,7 +114,7 @@ func_nodejs() {
   func_java() {
 
     func_print_head "install mavan"
-    yum install maven -y
+    yum install maven -y >/tmp/roboshop.log
     func_status_check $?
 
     func_app_prereq
