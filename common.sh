@@ -2,6 +2,7 @@ app_user=roboshop
 script=$(realpath "$0")
 script_path=$(dirname "$script")
 redirect_log=/tmp/roboshop.log
+#rm -f $redirect_log
 
 func_print_head() {
   echo -e "\e[35m>>>>>>>> $1 <<<<<<<<<\e[0m"
@@ -49,6 +50,8 @@ func_status_check()  {
 func_app_prereq() {
 
     func_print_head "add application user"
+    id {app_user} &>>$redirect_log
+    if [ $? -ne  0 ]; then
     useradd ${app_user} &>>$redirect_log
     func_status_check $?
 
