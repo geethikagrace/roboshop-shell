@@ -10,23 +10,34 @@ then
   exit
 fi
 
-echo -e "\e[32m>>>>>>>>setup erlang repos<<<<<<<<<\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
 
-echo -e "\e[32m>>>>>>>>setup rabbitmq  repos<<<<<<<<<\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+func_print_head "module enable"
+dnf module enable redis:remi-6.2 -y &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[32m>>>>>>>>install erlang<<<<<<<<<\e[0m"
-yum install erlang -y
 
-echo -e "\e[32m>>>>>>>>install rebbitmq<<<<<<<<<\e[0m"
-yum install rabbitmq-server -y
+func_print_head "setup erlang repos"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[32m>>>>>>>>start rebbitmq<<<<<<<<<\e[0m"
-systemctl enable rabbitmq-server
-systemctl restart rabbitmq-server
+func_print_head "setup rabbitmq  repos"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[32m>>>>>>>>add application user<<<<<<<<<\e[0m"
+func_print_head"install erlang"
+yum install erlang -y &>>$redirect_log
+func_status_check $?
 
-rabbitmqctl add_user roboshop ${rabbitmq_appuser_password}
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+func_print_head "install rebbitmq"
+yum install rabbitmq-server -y &>>$redirect_log
+func_status_check $?
+
+func_print_head  "start rebbitmq"
+systemctl enable rabbitmq-server &>>$redirect_log
+systemctl restart rabbitmq-server &>>$redirect_log
+func_status_check $?
+
+func_print_head "add application user in rabbitmq"
+rabbitmqctl add_user roboshop ${rabbitmq_appuser_password} &>>$redirect_log
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".* "  &>>$redirect_log
+func_status_check $?

@@ -2,18 +2,25 @@ script=$(realpath "$0")
 script_path=$(dirname  "$script")
 source ${script_path}/common.sh
 
-echo -e "\e[34m>>>>>>>>installing remi repo<<<<<<<<<\e[0m"
-yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
 
-echo -e "\e[34m>>>>>>>>module enable<<<<<<<<<\e[0m"
-dnf module enable redis:remi-6.2 -y
 
-echo -e "\e[34m>>>>>>>>install redis<<<<<<<<<\e[0m"
-yum install redis -y
+func_print_head "installing remi repo"
+yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[34m>>>>>>>>changing conf<<<<<<<<<\e[0m"
-sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/redis.conf /etc/redis/redis.conf
+func_print_head "module enable"
+dnf module enable redis:remi-6.2 -y &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[34m>>>>>>>>restating redis<<<<<<<<<\e[0m"
-systemctl enable redis
-systemctl restart redis
+func_print_head "install redis"
+yum install redis -y &>>$redirect_log
+func_status_check $?
+
+func_print_head "update redis lisen address"
+sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/redis.conf /etc/redis/redis.conf &>>$redirect_log
+func_status_check $?
+
+func_print_head "restating redis"
+systemctl enable redis &>>$redirect_log
+systemctl restart redis &>>$redirect_log
+func_status_check $?
