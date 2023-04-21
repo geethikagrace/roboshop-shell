@@ -1,5 +1,7 @@
 app_user=roboshop
-
+script=$(realpath "$0")
+script_path=$(dirname "$script")
+redirect_log=/tmp/roboshop.log
 
 func_print_head() {
   echo -e "\e[36m>>>>>>>> $1 <<<<<<<<<\e[0m"
@@ -18,33 +20,28 @@ func_status_check()  {
   func_schema_setup() {
    if [  "$schema_setup" == "mongo"  ]; then
       func_print_head "copy mongodb repo"
-      cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo
+      cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>$redirect_log
       func_status_check $?
 
-     func_print_head "install mongo clint"
-     yum install mongodb-org-shell -y
-     func_status_check $?
+      func_print_head "install mongo clint"
+      yum install mongodb-org-shell -y &>>$redirect_log
+      func_status_check $?
 
-     func_print_head "install mongodb client"
-    mongo --host mongodb-dev.sonydevops.online </app/schema/${component}.js
-    func_status_check $?
+      func_print_head "install mongodb client"
+      mongo --host mongodb-dev.sonydevops.online </app/schema/${component}.js &>>$redirect_log
+      func_status_check $?
   fi
 
 
   if [ "$schema_setup" == "mysql"  ]; then
-      func_print_head "download  mavan dependences"
-      mvn clean package
-      mv target/shipping-1.0.jar shipping.jar
-      func_status_check $?
-
 
       func_print_head"install mysql client"
-      yum install mysql -y
+      yum install mysql -y &>>$redirect_log
       func_status_check $?
 
 
       func_print_head "load schema"
-      mysql -h mysql-dev.sonydevops.online -uroot -p${mysql_root_password} < /app/schema/${component}.sql
+      mysql -h mysql-dev.sonydevops.online -uroot -p${mysql_root_password} < /app/schema/${component}.sql &>>$redirect_log
       func_status_check $?
   fi
 }
@@ -52,36 +49,35 @@ func_status_check()  {
 func_app_prereq() {
 
     func_print_head "add application user"
-    useradd ${app_user} &>/tmp/roboshop.log
-
+    useradd ${app_user} &>>$redirect_log
     func_status_check $?
 
     func_print_head "creat application directory"
-    rm -rf /app
-    mkdir /app
-   func_status_check $?
+    rm -rf /app &>>$redirect_log
+    mkdir /app &>>$redirect_log
+    func_status_check $?
 
     func_print_head "download  application content"
-    curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip
+    curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$redirect_log
     func_status_check $?
 
 
     func_print_head "extract application content"
     cd /app
-    unzip /tmp/${component}.zip
+    unzip /tmp/${component}.zip &>>$redirect_log
     func_status_check $?
 }
 
-   func_systemd_setup() {
+func_systemd_setup() {
 
     func_print_head "setup systemd"
-    cp ${script_path}/${component}.service /etc/systemd/system/${component}.service
+    cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$redirect_log
     func_status_check $?
 
     func_print_head "start ${component}service"
-    systemctl daemon-reload
-    systemctl enable ${component}
-    systemctl start ${component}
+    systemctl daemon-reload  &>>$redirect_log
+    systemctl enable ${component}  &>>$redirect_log
+    systemctl start ${component}  &>>$redirect_log
     func_status_check $?
    }
 
@@ -89,17 +85,17 @@ func_app_prereq() {
 
 func_nodejs() {
   func_print_head "configuring nodeJS repos"
-  curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+  curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>$redirect_log
   func_status_check $?
 
   func_print_head "install nodejs"
-  yum install nodejs -y
- func_status_check $?
+  yum install nodejs -y &>>$redirect_log
+  func_status_check $?
 
- func_app_prereq
+  func_app_prereq
 
- func_print_head "install nodejs dependences"
-  npm install
+  func_print_head "install nodejs dependences"
+  npm install &>>$redirect_log
   func_status_check $?
 
   func_schema_setup
@@ -111,19 +107,19 @@ func_nodejs() {
   func_java() {
 
     func_print_head "install mavan"
-    yum install maven -y >/tmp/roboshop.log
+    yum install maven -y &>>$redirect_log
     func_status_check $?
 
     func_app_prereq
 
     func_print_head"install mysql client"
-    yum install mysql -y
+    yum install mysql -y &>>$redirect_log
     func_status_check $?
 
     func_print_head "download  mavan dependences"
-    mvn clean package
+    mvn clean package &>>$redirect_log
     func_status_check $?
-    mv target/${component}-1.0.jar ${component}.jar
+    mv target/${component}-1.0.jar ${component}.jar &>>$redirect_log
 
     func_schema_setup
 
