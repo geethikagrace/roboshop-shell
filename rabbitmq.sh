@@ -11,10 +11,6 @@ then
 fi
 
 
-func_print_head "module enable"
-dnf module enable redis:remi-6.2 -y &>>$redirect_log
-func_status_check $?
-
 
 func_print_head "setup erlang repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$redirect_log
