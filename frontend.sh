@@ -17,7 +17,7 @@ func_print_head "copy config file"
 
 
 func_print_head "removing old content"
-    rm -rf /usr/share/nginx/html/* &>>$redirect_log
+    rm -rf /usr/share/nginx/html/*  &>>$redirect_log
     func_status_check $?
 
 
