@@ -81,7 +81,7 @@ func_systemd_setup() {
     func_print_head "start ${component}service"
     systemctl daemon-reload  &>>$redirect_log
     systemctl enable ${component}  &>>$redirect_log
-    systemctl start ${component}  &>>$redirect_log
+    systemctl restart ${component}  &>>$redirect_log
     func_status_check $?
    }
 
