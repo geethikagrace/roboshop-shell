@@ -9,18 +9,24 @@ then
   exit
 fi
 
-echo -e "\e[35m>>>>>>>>deleting default content<<<<<<<<<\e[0m"
-dnf module disable mysql -y
 
-echo -e "\e[35m>>>>>>>>copy mysql repo <<<<<<<<<\e[0m"
-cp ${script_path}/mysql.repo  /etc/yum.repos.d/mysql.repo
+func_print_head "deleting default content"
+dnf module disable mysql -y &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[35m>>>>>>>>install my sql <<<<<<<<<\e[0m"
-yum install mysql-community-server -y
+func_print_head "copy mysql repo"
+cp ${script_path}/mysql.repo  /etc/yum.repos.d/mysql.repo &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[35m>>>>>>>>start mysql <<<<<<<<<\e[0m"
-systemctl enable mysqld
-systemctl restart mysqld
+func_print_head "install my sql "
+yum install mysql-community-server -y &>>$redirect_log
+func_status_check $?
 
-echo -e "\e[35m>>>>>>>>reset my sql passwd <<<<<<<<<\e[0m"
-mysql_secure_installation --set-root-pass ${mysql_root_password}
+func_print_head "start mysql"
+systemctl enable mysqld &>>$redirect_log
+systemctl restart mysqld &>>$redirect_log
+func_status_check $?
+
+func_print_head "reset my sql passwd"
+mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$redirect_log
+func_status_check $?
