@@ -36,7 +36,7 @@ func_status_check()  {
 
   if [ "$schema_setup" == "mysql"  ]; then
 
-      func_print_head"install mysql client"
+      func_print_head  "install mysql client"
       yum install mysql -y &>>$redirect_log
       func_status_check $?
 
