@@ -28,5 +28,5 @@ systemctl restart mysqld &>>$redirect_log
 func_status_check $?
 
 func_print_head "reset my sql passwd"
-mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$redirect_log
+mysql_secure_installation --set-root-pass $mysql_root_password &>>$redirect_log
 func_status_check $?
