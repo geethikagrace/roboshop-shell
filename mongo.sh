@@ -5,7 +5,7 @@ source ${script_path}/common.sh
 
 
     func_print_head "mongo repo"
-    cp ${script_path}/etc/yum.repos.d/mongo.repo &>>$redirect_log
+    cp ${script_path}  /etc/yum.repos.d/mongo.repo &>>$redirect_log
     func_status_check $?
 
     func_print_head "install mongodb"
