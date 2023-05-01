@@ -78,7 +78,7 @@ func_systemd_setup() {
     cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$redirect_log
     func_status_check $?
 
-    func_print_head "start ${component}service"
+    func_print_head "start ${component} service"
     systemctl daemon-reload  &>>$redirect_log
     systemctl enable ${component}  &>>$redirect_log
     systemctl restart ${component}  &>>$redirect_log
